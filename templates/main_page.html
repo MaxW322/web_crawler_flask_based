@@ -8,12 +8,16 @@
         body {
             margin: 0;
             font-family: Arial, sans-serif;
+            background: no-repeat center center url("../static/img/gdut.png");
+            background-size: cover;
         }
 
         .topnav {
             overflow: hidden;
             background-color: #333;
             background-image: linear-gradient(to right, #0f7ed7, #4dcde3);
+            -webkit-backdrop-filter: blur(10px);
+            backdrop-filter: blur(20px);
         }
 
         .topnav a {
@@ -48,7 +52,9 @@
         .box {
             display: flex;
             flex-wrap: wrap;
-            background-color: #f1f1f1;
+            background-color: rgba(255, 255, 255, 0.3);
+            -webkit-backdrop-filter: blur(10px);
+            backdrop-filter: blur(20px);
             border-radius: 10px;
             padding: 20px;
             margin-bottom: 20px;
@@ -62,7 +68,9 @@
 
         .bubble {
             position: relative;
-            background-color: #9cbae0;
+            background-color: #249cff;
+            -webkit-backdrop-filter: blur(10px);
+            backdrop-filter: blur(2px);
             border-radius: 5px;
             padding: 10px;
         }
@@ -73,7 +81,7 @@
             top: 10px;
             left: -15px;
             border-top: 10px solid transparent;
-            border-right: 15px solid #9cbae0;
+            border-right: 15px solid #249cff;
             border-bottom: 10px solid transparent;
         }
 

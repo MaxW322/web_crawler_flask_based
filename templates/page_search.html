@@ -9,6 +9,8 @@
         body {
             margin: 0;
             font-family: Arial, sans-serif;
+            background: no-repeat center 80% url("../static/img/gdut.png");
+            background-size: 1500px 1500px;
         }
 
         .topnav {
@@ -49,7 +51,9 @@
         .box {
             display: flex;
             flex-wrap: wrap;
-            background-color: #f1f1f1;
+            background-color: rgba(255, 255, 255, 0.3);
+            -webkit-backdrop-filter: blur(10px);
+            backdrop-filter: blur(20px);
             border-radius: 10px;
             padding: 20px;
             margin-bottom: 20px;
@@ -128,6 +132,7 @@
         })
     </script>
 </div>
+
 <div class="layui-container">
     <form class="layui-form" action="">
         <div class="layui-form layui-row layui-col-space16" style="margin: 20px 10px">
@@ -146,10 +151,13 @@
         </div>
     </form>
 </div>
-<div class="layui-container" >
-    <table class="layui-hide" id="comment"></table>
-</div>
 
+
+<div class="layui-container" >
+    <div class="box">
+    <table class="layui-hide" id="comment"></table>
+        </div>
+</div>
 <script>
     layui.use(function () {
         var table = layui.table;

@@ -9,12 +9,14 @@
         body {
             margin: 0;
             font-family: Arial, sans-serif;
+            background: no-repeat center center url("../static/img/gdut.png");
+            background-size: cover;
         }
 
         .topnav {
             overflow: hidden;
             background-color: #333;
-            background-image: linear-gradient(to right, #0f7ed7, #0ff);
+            background-image: linear-gradient(to right, #0f7ed7, #4dcde3);
         }
 
         .topnav a {
@@ -97,7 +99,6 @@
     <script src="http://cdn.bootcss.com/jquery/1.11.1/jquery.min.js"></script>
     <script src="http://cdn.bootcss.com/bootstrap/3.3.0/js/bootstrap.min.js"></script>
 </head>
-<body  background="../static/img/img.png" style="background-size: 1488px 987px" >
 <div class="topnav">
     {% if not is_login %}
         <a href="login">主页</a>

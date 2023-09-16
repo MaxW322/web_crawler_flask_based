@@ -18,8 +18,29 @@
         top: 2px;
         font-size: 26px;
     }
+
+    .box {
+        display: flex;
+        flex-wrap: wrap;
+        background-color: rgba(255, 255, 255, 0.3);
+        -webkit-backdrop-filter: blur(10px);
+        backdrop-filter: blur(20px);
+        border-radius: 10px;
+        padding: 20px;
+        margin: auto;
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+    }
+
+    body {
+        background: no-repeat center center url("../static/img/gdut.png");
+        background-size: 1500px 1500px;
+    }
+
 </style>
-<body background="../static/img/img.png" style="background-size: 1488px 987px">
 
 
 <form class="layui-form">
@@ -29,7 +50,8 @@
                 <div class="layui-input-prefix">
                     <i class="layui-icon layui-icon-username"></i>
                 </div>
-                <input type="text" name="username" value="" lay-verify="required" placeholder="用户名" lay-reqtext="请填写用户名"
+                <input type="text" name="username" value="" lay-verify="required" placeholder="用户名"
+                       lay-reqtext="请填写用户名"
                        autocomplete="off" class="layui-input" lay-affix="clear">
             </div>
         </div>
@@ -56,7 +78,7 @@
                 <div class="layui-col-xs5">
                     <div style="margin-left: 10px;">
                         <img src="https://www.oschina.net/action/user/captcha"
-                             id = "captchaImage">
+                             id="captchaImage">
                     </div>
                 </div>
             </div>
@@ -96,18 +118,18 @@
 </script>
 <script>
     layui.use(function () {
-        var $ =layui.$;
+        var $ = layui.$;
         var captcha_uuid = '';
         var form = layui.form;
         var layer = layui.layer;
         //点击更新验证码
-        $('#captchaImage').click(function (){
+        $('#captchaImage').click(function () {
             //浏览器要发起图片验证码请求/captcha_code?captcha_code_uuid=xxxxx
             captcha_uuid = generateUUID();
-            document.getElementById('captchaImage').src = '/get_captcha?captcha_uuid='+captcha_uuid;
+            document.getElementById('captchaImage').src = '/get_captcha?captcha_uuid=' + captcha_uuid;
         });
         captcha_uuid = generateUUID();
-        document.getElementById('captchaImage').src = '/get_captcha?captcha_uuid='+captcha_uuid;
+        document.getElementById('captchaImage').src = '/get_captcha?captcha_uuid=' + captcha_uuid;
 
         // 提交事件
         form.on('submit(demo-login)', function (data) {
@@ -115,21 +137,21 @@
             // 显示填写结果，仅作演示用
             field['captcha_uuid'] = captcha_uuid
             // 此处可执行 Ajax 等操作
-            fetch('/api/login',{
+            fetch('/api/login', {
                 method: 'POST',
                 headers: {'Content-Type': 'application/json'},
                 body: JSON.stringify(field)
-            }).then(response =>  response.json()).then(data=>{
-                if(!data.code){
-                    layer.msg(data.message,{icon: 1})
-                    setTimeout(function (){
+            }).then(response => response.json()).then(data => {
+                if (!data.code) {
+                    layer.msg(data.message, {icon: 1})
+                    setTimeout(function () {
                         location.href = '/main_page'
-                    },2000)
-                }else {
-                    layer.msg(data.message,{icon: 2})
-                    setTimeout(function (){
+                    }, 2000)
+                } else {
+                    layer.msg(data.message, {icon: 2})
+                    setTimeout(function () {
                         location.href = '/login'
-                    },200)
+                    }, 200)
                 }
             })
             return false; // 阻止默认 form 跳转
