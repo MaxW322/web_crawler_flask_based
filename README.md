@@ -1,9 +1,9 @@
 ## 股票评论爬取分析
 ### 实现 web 交互页面
 
-![主页](https://github.com/MaxW322/web_crawler_flask_based/tree/master/for_git_image/main_page.png)
-![所有评论分析](https://github.com/MaxW322/web_crawler_flask_based/tree/master/for_git_image/all_comment.png)
-![评论搜索](https://github.com/MaxW322/web_crawler_flask_based/tree/master/for_git_image/search_comment.png)
+![主页]https://github.com/MaxW322/web_crawler_flask_based/blob/5140e3e36c8f7873ebb13b418cf670b29a92dd0f/for_git_image/main_page.png)
+![所有评论分析](https://github.com/MaxW322/web_crawler_flask_based/blob/5140e3e36c8f7873ebb13b418cf670b29a92dd0f/for_git_image/all_comment.png)
+![评论搜索](https://github.com/MaxW322/web_crawler_flask_based/blob/5140e3e36c8f7873ebb13b418cf670b29a92dd0f/for_git_image/search_comment.png)
 
 ### 后端
 
