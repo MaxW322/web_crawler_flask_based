@@ -1,0 +1,277 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>投资者情绪分析</title>
+    <link rel="stylesheet" href="/static/css/layui.css">
+    <style>
+        body {
+            margin: 0;
+            font-family: Arial, sans-serif;
+        }
+
+        .topnav {
+            overflow: hidden;
+            background-color: #333;
+            background-image: linear-gradient(to right, #0f7ed7, #0ff);
+        }
+
+        .topnav a {
+            float: left;
+            display: block;
+            color: #f2f2f2;
+            text-align: center;
+            padding: 14px 16px;
+            text-decoration: none;
+            text-shadow: 1px 1px 2px pink;
+        }
+
+        .topnav a:hover {
+            background-color: #ddd;
+            color: black;
+        }
+
+        .main {
+            display: flex;
+        }
+
+        .left {
+            flex: 2;
+            padding: 20px;
+        }
+
+        .right {
+            flex: 1;
+            padding: 20px;
+        }
+
+        .box {
+            display: flex;
+            flex-wrap: wrap;
+            background-color: #f1f1f1;
+            border-radius: 10px;
+            padding: 20px;
+            margin-bottom: 20px;
+        }
+
+        .comment {
+            display: flex;
+            flex-direction: column;
+            margin-bottom: 10px;
+        }
+
+        .bubble {
+            position: relative;
+            background-color: #9cbae0;
+            border-radius: 5px;
+            padding: 10px;
+        }
+
+        .bubble::after {
+            content: "";
+            position: absolute;
+            top: 10px;
+            left: -15px;
+            border-top: 10px solid transparent;
+            border-right: 15px solid #9cbae0;
+            border-bottom: 10px solid transparent;
+        }
+
+        .time {
+            font-size: 12px;
+            color: #999999;
+            margin-top: 5px;
+        }
+
+    </style>
+    <script>
+        function updateTime() {
+            var now = new Date();
+            var time = now.toLocaleTimeString();
+            var date = now.toLocaleDateString();
+            document.getElementById("time").innerHTML = time + " " + date;
+        }
+    </script>
+
+    <link rel="stylesheet" href="http://cdn.bootcss.com/bootstrap/3.3.0/css/bootstrap.min.css">
+    <script src="http://cdn.bootcss.com/jquery/1.11.1/jquery.min.js"></script>
+    <script src="http://cdn.bootcss.com/bootstrap/3.3.0/js/bootstrap.min.js"></script>
+</head>
+<script src="/static/layui.js"></script>
+<body onload="setInterval(updateTime, 1000)" >
+<div class="topnav">
+    <a href="http://127.0.0.1:5000/main_page">主页</a>
+    <a href="http://127.0.0.1:5000/page_all">所有评论汇总</a>
+    <a href="http://127.0.0.1:5000/page_search">评论查询</a>
+    <ul class="layui-layout-right">
+        <a href="javascript:;" id="quit">
+            退出
+        </a>
+    </ul>
+    <script>
+        $("#quit").click(function handleForm() {
+            // 发送请求
+            fetch('/api/quit', {
+                method: 'get',
+            }).then(response => response.json()).then(data => {
+                //处理后端响应数据
+                if (!data.code) {
+                    layer.msg(data.message, {icon: 1})
+                    setTimeout(function () {
+                        location.href = '/'
+                    }, 500)
+                } else {
+                    layer.msg(data.message, {icon: 2})
+                }
+            })
+        })
+    </script>
+</div>
+<div class="box">
+    <h4>最新爬取评论</h4>
+    <div class="comment">
+        <div class="bubble">
+            <p>{{ last_comment_text }}</p>
+        </div>
+        <div class="time">2023-{{ last_comment_date }}</div>
+    </div>
+</div>
+<div class="main">
+
+
+    <div class="left">
+        <div class="box">
+            <!-- iframe goes here -->
+            <iframe class="graph" id="all_comment" width="800px" height="400px" frameborder="no" marginwidth="0"
+                    marginheight="0" scrolling="no" allowtransparency="yes"
+                    src="{{ url_for('all_comment') }}"></iframe>
+        </div>
+        <div class="box">
+            <!-- iframe goes here -->
+            <iframe class="graph" id="kline" width="800px" height="400px" frameborder="no" marginwidth="0"
+                    marginheight="0" scrolling="no" allowtransparency="yes"
+                    src="{{ url_for('kline') }}"></iframe>
+        </div>
+    </div>
+    <div class="right">
+
+        <div class="box">
+            <form><label for="stock">输入股票代码:</label>
+                <label>
+                    <input type="text" name="input_code" value="300059">
+                </label>
+                <label>爬取最早时间:
+                    <input type="datetime-local" name="last_day">
+                </label>
+                <p>当前时间:</p>
+                <p id="time"></p>
+                <button id="run">爬取</button>
+            </form>
+            <div class="progress">
+                <div class="progress-bar" role="progressbar" aria-valuenow="1" aria-valuemin="0" aria-valuemax="100"
+                     style="width: 00%">0.00%
+                </div>
+            </div>
+        </div>
+
+        <div class="box">
+            <iframe class="graph" id="all_comment" width="400px" height="200px" frameborder="no" marginwidth="0"
+                    marginheight="0" scrolling="no" allowtransparency="yes"
+                    src="{{ url_for('main_wordcloud') }}"></iframe>
+        </div>
+
+        <div class="box">
+            <iframe class="graph" id="all_comment" width="400px" height="400px" frameborder="no" marginwidth="0"
+                    marginheight="0" scrolling="no" allowtransparency="yes"
+                    src="{{ url_for('main_pie') }}"></iframe>
+        </div>
+
+        <script>
+            function set_progress_rate(status, n, total) {
+                //设置进度
+                var rate = (n / total * 100).toFixed(2);
+                if (n > 0) {
+                    $(".progress-bar").attr("aria-valuenow", n);
+                    $(".progress-bar").attr("aria-valuemax", total);
+                    $(".progress-bar").text(status + rate + "%");
+                    $(".progress-bar").css("width", rate + "%");
+                }
+            }
+
+            $("#run").click(function handleForm() {
+                // 获取表单数据
+                let myInput = document.querySelector('input[name="input_code"]').value;
+                let myDatetime = document.querySelector('input[name="last_day"]').value;
+
+                // 将表单数据发送到服务器
+                fetch('/receive_code', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({
+                        input_code: myInput,
+                        last_day: myDatetime
+                    })
+                });
+            });
+            var grab = setInterval(function () {
+                //每1秒请求一次进度
+                $.ajax({
+                    url: "http://127.0.0.1:5000/progress/",
+                    type: "GET",
+                    success: function (response) {
+                        console.log(response);
+                        var status = response["status"]
+                        var n = response["n"];
+                        var total = response["total"];
+                        set_progress_rate(status, n, total);
+                    }
+                });
+            }, 1000);
+
+            function stopinteval() {
+                $.ajax({
+                    url: "http://127.0.0.1:5000/progress/",
+                    type: "GET",
+                    success: function (response) {
+                        console.log(response);
+                        var status = response["status"]
+                        var n = response["n"];
+                        var total = response["total"];
+                        set_progress_rate(status, n, total);
+                        if (n == total) {
+                            window.location.reload(); //刷新当前页面.
+                            clearInterval(grab);
+                        }
+                    }
+                })
+            }
+        </script>
+
+        <script>
+            function handleForm() {
+                // 获取表单数据
+                let myInput = document.querySelector('input[name="input_code"]').value;
+                let myDatetime = document.querySelector('input[name="last_day"]').value;
+
+                // 将表单数据发送到服务器
+                fetch('/receive_code', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({
+                        input_code: myInput,
+                        last_day: myDatetime
+                    })
+                });
+            }
+        </script>
+
+    </div>
+</div>
+<script src="/static/layui.js"></script>
+</body>
+
+</html>

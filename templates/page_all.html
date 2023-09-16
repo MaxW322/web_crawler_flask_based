@@ -1,0 +1,229 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <title>投资者情绪分析</title>
+    <link rel="stylesheet" href="/static/css/layui.css">
+    <style>
+        body {
+            margin: 0;
+            font-family: Arial, sans-serif;
+        }
+
+        .topnav {
+            overflow: hidden;
+            background-color: #333;
+            background-image: linear-gradient(to right, #0f7ed7, #4dcde3);
+        }
+
+        .topnav a {
+            float: left;
+            display: block;
+            color: #f2f2f2;
+            text-align: center;
+            padding: 14px 16px;
+            text-decoration: none;
+            text-shadow: 1px 1px 2px pink;
+        }
+
+        .topnav a:hover {
+            background-color: #ddd;
+            color: black;
+        }
+
+        .main {
+            display: flex;
+        }
+
+        .left {
+            flex: 2;
+            padding: 20px;
+        }
+
+        .right {
+            flex: 1;
+            padding: 20px;
+        }
+
+        .box {
+            background-color: #f1f1f1;
+            border-radius: 10px;
+            padding: 20px;
+            margin-bottom: 20px;
+            flex-wrap: wrap;
+        }
+
+        .div {
+            word-wrap: break-word;
+            word-break: normal;
+        }
+
+        .comments-box {
+            width: 400px;
+            height: 200px;
+            overflow-y: scroll;
+            overflow-x: hidden;
+            border: 1px solid #cccccc;
+            padding: 10px;
+        }
+
+        .comment {
+            display: flex;
+            flex-direction: column;
+            margin-bottom: 10px;
+        }
+
+        .bubble {
+            position: relative;
+            background-color: #9cbae0;
+            border-radius: 5px;
+            padding: 10px;
+        }
+
+        .bubble::after {
+            content: "";
+            position: absolute;
+            top: 10px;
+            left: -15px;
+            border-top: 10px solid transparent;
+            border-right: 15px solid #9cbae0;
+            border-bottom: 10px solid transparent;
+        }
+
+        .time {
+            font-size: 12px;
+            color: #999999;
+            margin-top: 5px;
+        }
+
+    </style>
+    <script>
+        function updateTime() {
+            var now = new Date();
+            var time = now.toLocaleTimeString();
+            var date = now.toLocaleDateString();
+            document.getElementById("time").innerHTML = time + " " + date;
+        }
+    </script>
+
+    <link rel="stylesheet" href="http://cdn.bootcss.com/bootstrap/3.3.0/css/bootstrap.min.css">
+    <script src="http://cdn.bootcss.com/jquery/1.11.1/jquery.min.js"></script>
+    <script src="http://cdn.bootcss.com/bootstrap/3.3.0/js/bootstrap.min.js"></script>
+</head>
+<body onload="setInterval(updateTime, 1000)">
+<div class="topnav">
+    <a href="http://127.0.0.1:5000/main_page">主页</a>
+    <a href="http://127.0.0.1:5000/page_all">所有评论汇总</a>
+    <a href="page_search">评论查询</a>
+    <ul class="layui-layout-right">
+        <a href="javascript:;" id="quit">
+            退出
+        </a>
+    </ul>
+    <script>
+        $("#quit").click(function handleForm() {
+            // 发送请求
+            fetch('/api/quit', {
+                method: 'get',
+            }).then(response => response.json()).then(data => {
+                //处理后端响应数据
+                if (!data.code) {
+                    layer.msg(data.message, {icon: 1})
+                    setTimeout(function () {
+                        location.href = '/'
+                    }, 500)
+                } else {
+                    layer.msg(data.message, {icon: 2})
+                }
+            })
+        })
+    </script>
+</div>
+<div class="box">
+    <h3>当前股票 {{ code }} 股吧评论分析</h3>
+</div>
+<div class="main">
+    <div class="left">
+        <div class="box">
+            <!-- iframe goes here -->
+            <iframe class="graph" id="daily_comment_line" width="800px" height="400px" frameborder="no" marginwidth="0"
+                    marginheight="0" scrolling="no" allowtransparency="yes"
+                    src="{{ url_for('daily_comment_line') }}"></iframe>
+        </div>
+
+        <div class="box">
+            <!-- iframe goes here -->
+            <iframe class="graph" id="daily_horizon" width="800px" height="400px" frameborder="no" marginwidth="0"
+                    marginheight="0" scrolling="no" allowtransparency="yes"
+                    src="{{ url_for('daily_horizon') }}"></iframe>
+        </div>
+        <div class="box">
+            <iframe class="graph" id="all_comment" width="800px" height="400px" frameborder="no" marginwidth="0"
+                    marginheight="0" scrolling="no" allowtransparency="yes"
+                    src="{{ url_for('all_comment') }}"></iframe>
+        </div>
+    </div>
+
+    <div class="right">
+
+        <div class="comments-box">
+            {% for comment in comments %}
+                <div class="comment">
+                    <div class="bubble">
+                        <p>{{ comment['comment_text'] }}</p>
+                    </div>
+                    <div class="time">2023-{{ comment['comment_date'] }}</div>
+                </div>
+            {% endfor %}
+        </div>
+
+        <div class="box">
+            <iframe class="graph" id="calendar" width="400px" height="300px" frameborder="no" marginwidth="0"
+                    marginheight="0" scrolling="no" allowtransparency="yes"
+                    src="{{ url_for('calendar') }}"></iframe>
+        </div>
+
+        <div class="box">
+            <iframe class="graph" id="all_comment" width="400px" height="200px" frameborder="no" marginwidth="0"
+                    marginheight="0" scrolling="no" allowtransparency="yes"
+                    src="{{ url_for('main_wordcloud') }}"></iframe>
+        </div>
+
+
+    </div>
+
+
+    <script>
+        // 获取评论框元素
+        var box = document.querySelector('.comments-box');
+        // 获取所有评论元素
+        var comments = document.querySelectorAll('.comment');
+        // 设置当前评论索引
+        var currentCommentIndex = 0;
+        // 设置滚动时间间隔（毫秒）
+        var scrollInterval = 2500;
+
+        // 定义滚动到下一条评论的函数
+        function scrollToNextComment() {
+            // 如果当前评论索引小于评论总数
+            if (currentCommentIndex < comments.length) {
+                // 获取当前评论元素
+                var comment = comments[currentCommentIndex];
+                // 平滑滚动到当前评论元素
+                box.scrollTo({
+                    top: comment.offsetTop - box.offsetTop,
+                    behavior: 'smooth'
+                });
+                // 索引递增
+                currentCommentIndex++;
+            }
+        }
+
+        // 每隔一定时间滚动到下一条评论
+        setInterval(scrollToNextComment, scrollInterval);
+    </script>
+
+</div>
+</body>
+<script src="/static/layui.js"></script>
+</html>

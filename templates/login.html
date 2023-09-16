@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>登录页面</title>
+    <link rel="stylesheet" href="/static/css/layui.css">
+</head>
+<style>
+    .demo-login-container {
+        width: 320px;
+        margin: 21px auto 0;
+    }
+
+    .demo-login-other .layui-icon {
+        position: relative;
+        display: inline-block;
+        margin: 0 2px;
+        top: 2px;
+        font-size: 26px;
+    }
+</style>
+<body background="../static/img/img.png" style="background-size: 1488px 987px">
+
+
+<form class="layui-form">
+    <div class="demo-login-container">
+        <div class="layui-form-item">
+            <div class="layui-input-wrap">
+                <div class="layui-input-prefix">
+                    <i class="layui-icon layui-icon-username"></i>
+                </div>
+                <input type="text" name="username" value="" lay-verify="required" placeholder="用户名" lay-reqtext="请填写用户名"
+                       autocomplete="off" class="layui-input" lay-affix="clear">
+            </div>
+        </div>
+        <div class="layui-form-item">
+            <div class="layui-input-wrap">
+                <div class="layui-input-prefix">
+                    <i class="layui-icon layui-icon-password"></i>
+                </div>
+                <input type="password" name="password" value="" lay-verify="required" placeholder="密   码"
+                       lay-reqtext="请填写密码" autocomplete="off" class="layui-input" lay-affix="eye">
+            </div>
+        </div>
+        <div class="layui-form-item">
+            <div class="layui-row">
+                <div class="layui-col-xs7">
+                    <div class="layui-input-wrap">
+                        <div class="layui-input-prefix">
+                            <i class="layui-icon layui-icon-vercode"></i>
+                        </div>
+                        <input type="text" name="captcha" value="" lay-verify="required" placeholder="验证码"
+                               lay-reqtext="请填写验证码" autocomplete="off" class="layui-input" lay-affix="clear">
+                    </div>
+                </div>
+                <div class="layui-col-xs5">
+                    <div style="margin-left: 10px;">
+                        <img src="https://www.oschina.net/action/user/captcha"
+                             id = "captchaImage">
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="layui-form-item">
+            <button class="layui-btn layui-btn-fluid" lay-submit lay-filter="demo-login">登录</button>
+        </div>
+        <div class="layui-form-item demo-login-other">
+            <label>社交账号登录</label>
+            <span style="padding: 0 21px 0 6px;">
+        <a href="javascript:;"><i class="layui-icon layui-icon-login-qq" style="color: #3492ed;"></i></a>
+        <a href="javascript:;"><i class="layui-icon layui-icon-login-wechat" style="color: #4daf29;"></i></a>
+        <a href="javascript:;"><i class="layui-icon layui-icon-login-weibo" style="color: #cf1900;"></i></a>
+      </span>
+            或 <a href="register">注册帐号</a></span>
+        </div>
+    </div>
+</form>
+</body>
+
+<script src="/static/layui.js"></script>
+<script>
+    //生成uuid
+    function generateUUID() {
+        var d = new Date().getTime();
+        if (window.performance && typeof window.performance.now == 'function') {
+            d += performance.now();
+        }
+        var uuid = 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g,
+            function (c) {
+                var r = (d + Math.random() * 16) % 16 | 0;
+                d = Math.floor(d / 16);
+                return (c == 'x' ? r : (r & 0x3 | 0x8)).toString(16);
+            });
+        return uuid;
+    }
+</script>
+<script>
+    layui.use(function () {
+        var $ =layui.$;
+        var captcha_uuid = '';
+        var form = layui.form;
+        var layer = layui.layer;
+        //点击更新验证码
+        $('#captchaImage').click(function (){
+            //浏览器要发起图片验证码请求/captcha_code?captcha_code_uuid=xxxxx
+            captcha_uuid = generateUUID();
+            document.getElementById('captchaImage').src = '/get_captcha?captcha_uuid='+captcha_uuid;
+        });
+        captcha_uuid = generateUUID();
+        document.getElementById('captchaImage').src = '/get_captcha?captcha_uuid='+captcha_uuid;
+
+        // 提交事件
+        form.on('submit(demo-login)', function (data) {
+            var field = data.field; // 获取表单字段值
+            // 显示填写结果，仅作演示用
+            field['captcha_uuid'] = captcha_uuid
+            // 此处可执行 Ajax 等操作
+            fetch('/api/login',{
+                method: 'POST',
+                headers: {'Content-Type': 'application/json'},
+                body: JSON.stringify(field)
+            }).then(response =>  response.json()).then(data=>{
+                if(!data.code){
+                    layer.msg(data.message,{icon: 1})
+                    setTimeout(function (){
+                        location.href = '/main_page'
+                    },2000)
+                }else {
+                    layer.msg(data.message,{icon: 2})
+                    setTimeout(function (){
+                        location.href = '/login'
+                    },200)
+                }
+            })
+            return false; // 阻止默认 form 跳转
+        });
+    });
+</script>
+</html>
