@@ -14,14 +14,14 @@
 	<tr>
 		<td>
 			<center>
-				<img src="https://github.com/MaxW322/web_crawler_flask_based/blob/6c7a447294fc0b75b2af2ec8be357d00f4990d03/for_git_image/entrance_new.png" width="60%" />
+				<img src="https://github.com/MaxW322/web_crawler_flask_based/blob/6c7a447294fc0b75b2af2ec8be357d00f4990d03/for_git_image/entrance_new.png" />
 				<br/>
 				<font color="AAAAAA">统一背景空白首页</font>
 			</center>
 		</td>
 		<td>
 			<center>
-				<img src="https://github.com/MaxW322/web_crawler_flask_based/blob/6c7a447294fc0b75b2af2ec8be357d00f4990d03/for_git_image/login_page_new.png" width="60%" />
+				<img src="https://github.com/MaxW322/web_crawler_flask_based/blob/6c7a447294fc0b75b2af2ec8be357d00f4990d03/for_git_image/login_page_new.png" />
 				<br/>
 				<font color="AAAAAA">统一背景后登录主页</font>
 			</center>
