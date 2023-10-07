@@ -1,4 +1,7 @@
 ## 股票评论爬取分析
+**最新更新**
+- 2023-09-27 增加gdut背景，使用electron作为前端
+
 ### 实现 web 交互页面
 
 ![主页](https://github.com/MaxW322/web_crawler_flask_based/blob/5140e3e36c8f7873ebb13b418cf670b29a92dd0f/for_git_image/main_page.png)
