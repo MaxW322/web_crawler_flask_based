@@ -4,9 +4,80 @@
 
 ### 实现 web 交互页面
 
-![主页](https://github.com/MaxW322/web_crawler_flask_based/blob/5140e3e36c8f7873ebb13b418cf670b29a92dd0f/for_git_image/main_page.png)
-![所有评论分析](https://github.com/MaxW322/web_crawler_flask_based/blob/5140e3e36c8f7873ebb13b418cf670b29a92dd0f/for_git_image/all_comment.png)
-![评论搜索](https://github.com/MaxW322/web_crawler_flask_based/blob/5140e3e36c8f7873ebb13b418cf670b29a92dd0f/for_git_image/search_comment.png)
+[//]: # (<img alt="主页" src="https://github.com/MaxW322/web_crawler_flask_based/blob/5140e3e36c8f7873ebb13b418cf670b29a92dd0f/for_git_image/main_page.png"/>)
+
+[//]: # (<img alt="所有评论分析" src="https://github.com/MaxW322/web_crawler_flask_based/blob/5140e3e36c8f7873ebb13b418cf670b29a92dd0f/for_git_image/all_comment.png"/>)
+
+[//]: # (<img alt="评论搜索" src="https://github.com/MaxW322/web_crawler_flask_based/blob/5140e3e36c8f7873ebb13b418cf670b29a92dd0f/for_git_image/search_comment.png"/>)
+
+<table rules="none" align="center">
+	<tr>
+		<td>
+			<center>
+				<img src="https://github.com/MaxW322/web_crawler_flask_based/blob/5140e3e36c8f7873ebb13b418cf670b29a92dd0f/for_git_image/entrance.png" width="60%" />
+				<br/>
+				<font color="AAAAAA">统一背景空白首页</font>
+			</center>
+		</td>
+		<td>
+			<center>
+				<img src="https://github.com/MaxW322/web_crawler_flask_based/blob/5140e3e36c8f7873ebb13b418cf670b29a92dd0f/for_git_image/login_page.png" width="60%" />
+				<br/>
+				<font color="AAAAAA">统一背景后登录主页</font>
+			</center>
+		</td>
+	</tr>
+	<tr>
+		<td>
+			<center>
+				<img alt="主页" src="https://github.com/MaxW322/web_crawler_flask_based/blob/5140e3e36c8f7873ebb13b418cf670b29a92dd0f/for_git_image/main_page.png"/>
+                <br/>
+				<font color="AAAAAA">新主页</font>
+			</center>
+		</td>
+		<td>
+			<center>
+				<img alt="旧主页" src="https://github.com/MaxW322/web_crawler_flask_based/blob/5140e3e36c8f7873ebb13b418cf670b29a92dd0f/for_git_image/main_page_old.png"/>
+                <br/>
+				<font color="AAAAAA">旧主页</font>
+			</center>
+		</td>
+	</tr>
+	<tr>
+		<td>
+			<center>
+				<img alt="新所有评论分析" src="https://github.com/MaxW322/web_crawler_flask_based/blob/5140e3e36c8f7873ebb13b418cf670b29a92dd0f/for_git_image/all_comment.png"/>
+                <br/>
+				<font color="AAAAAA">新所有评论分析</font>
+			</center>
+		</td>
+		<td>
+			<center>
+				<img alt="所有评论分析" src="https://github.com/MaxW322/web_crawler_flask_based/blob/5140e3e36c8f7873ebb13b418cf670b29a92dd0f/for_git_image/all_comment_old.png"/>
+                <br/>
+				<font color="AAAAAA">旧所有评论分析</font>
+			</center>
+		</td>
+	</tr>
+	<tr>
+		<td>
+			<center>
+				<img alt="评论搜索" src="https://github.com/MaxW322/web_crawler_flask_based/blob/5140e3e36c8f7873ebb13b418cf670b29a92dd0f/for_git_image/search_comment.png"/>
+                <br/>
+				<font color="AAAAAA">新评论搜索</font>
+			</center>
+		</td>
+		<td>
+			<center>
+				<img alt="旧评论搜索" src="https://github.com/MaxW322/web_crawler_flask_based/blob/5140e3e36c8f7873ebb13b418cf670b29a92dd0f/for_git_image/search_comment_old.png"/>
+                <br/>
+				<font color="AAAAAA">旧评论搜索</font>
+			</center>
+		</td>
+	</tr>
+</table>
+
+
 
 ### 后端
 
